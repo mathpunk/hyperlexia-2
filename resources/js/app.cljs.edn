@@ -1,0 +1,3 @@
+{:require  [anansi.reading.app]
+ :init-fns [anansi.reading.app/init]
+ :compiler-options {:asset-path "js/app.out"}}
