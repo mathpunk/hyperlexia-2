@@ -13,6 +13,12 @@
   [:div "Good morning--"
    [some-component]])
 
+(defn summary-component [data]
+  [:div#summary
+  [:div#today "today's date is 2016-10-13"]
+  [:div#recent "these posts are from " data]
+  ])
+
 (defn init []
-  (reagent/render-component [calling-component]
+  (reagent/render-component [summary-component db/data]
                             (.getElementById js/document "container")))
