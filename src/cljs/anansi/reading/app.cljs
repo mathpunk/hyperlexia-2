@@ -6,7 +6,7 @@
   [:div
    [:h3 "I am a component!"]
    [:p.someclass
-    "I represent " [:strong db/c]
+    "I represent " [:strong db/data]
     [:span {:style {:color "green"}} " elements"]]])
 
 (defn calling-component []
