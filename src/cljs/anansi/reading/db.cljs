@@ -6,4 +6,8 @@
 
 (def r (transit/reader :json))
 
-(def data (count (transit/read r "{\"foo\":\"bar\"}")))
+(def data (transit/read r recent-pins-json))
+
+(defn view []
+  (. js/console log (clojure.string/join " " (keys (first (data "posts")))))
+  (:posts data))

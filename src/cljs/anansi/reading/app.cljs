@@ -4,13 +4,13 @@
 
 (defn some-component []
   [:div
-   [:h3 "I am a component!"]
+   [:h3 "Posts from " (:date db/data)]
    [:p.someclass
-    "I represent " [:strong db/data]
+    "I represent " [:strong (db/view)]
     [:span {:style {:color "green"}} " elements"]]])
 
 (defn calling-component []
-  [:div "Parent component"
+  [:div "Good morning--"
    [some-component]])
 
 (defn init []
