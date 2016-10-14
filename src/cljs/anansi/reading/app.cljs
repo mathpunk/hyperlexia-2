@@ -7,7 +7,7 @@
 (defonce state
   (let [data db/data
         session {:unread (count (:pins db/data))}]
-        (merge db/data session)))
+        (atom (merge db/data session))))
 
 (defn welcome []
   [:div#welcome [:h2 "Good morning--"]])
