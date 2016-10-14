@@ -2,9 +2,18 @@
   (:require [reagent-material-ui.core
     :refer [Card CardHeader CardTitle CardText FlatButton Toggle]]))
 
+(defn tweet-data [p]
+  (let [matches (re-find #"https://twitter.com/(\w+)/status/([0-9]+).*" (:href p))]
+    {:name (nth matches 1), :id (nth matches 2)}
+  ))
+
 (defn pin [p]
-  [Card [CardHeader {:title "tweet" :subtitle "tweeted"}]])
-  
+  (let [data (tweet-data p)]
+  [Card
+    [CardHeader {:title (:name data) :subtitle (:id data)}]
+    [CardText (:tags p)]]))
+
+
 ;   render() {
 ;     return (
 ;       <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>

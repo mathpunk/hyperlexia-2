@@ -22,7 +22,7 @@
 
 (defn pins []
   [:div#pins {:style {:margin-top 20}}
-    (c/pin (first (:pins @state)))
+    (map c/pin (:pins @state))
   ])
 
 (defn app []
