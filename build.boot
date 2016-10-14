@@ -12,9 +12,10 @@
                  [org.clojure/clojurescript "1.9.229"]
                  [crisptrutski/boot-cljs-test "0.2.0-SNAPSHOT" :scope "test"]
                  [org.martinklepsch/boot-garden "1.2.5-3" :scope "test"]
-                 [reagent "0.6.0"]
+                 [reagent "0.6.0" :exclusions [cljsjs/react]]
                  ;; prod
                  [com.cognitect/transit-cljs "0.8.239"]
+                 [cljs-react-material-ui "0.2.24"]
                  ])
 
 (require
