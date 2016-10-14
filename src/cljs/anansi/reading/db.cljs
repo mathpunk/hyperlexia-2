@@ -15,4 +15,5 @@
   {
     :keys (keys input)
     :date (input "date")
+    :user (input "user")
     })
