@@ -8,9 +8,5 @@
 
 (def input (transit/read r recent-pins-json))
 
-(defn data [input]
-  (keys input))
-
-(defn view []
-  (. js/console log (clojure.string/join " " (keys (first (data "posts")))))
-  (:posts data))
+(def data
+  {:date (input "date")})

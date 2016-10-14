@@ -2,23 +2,22 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [anansi.reading.db :as db]))
 
-(defn some-component []
-  [:div
-   [:h3 "Posts from " (:date db/data)]
-   [:p.someclass
-    "I represent " [:strong (db/view)]
-    [:span {:style {:color "green"}} " elements"]]])
+(def state (atom db/data))
+
+(defn summary-component [data]
+  (do (. js/console log "input: " db/input)
+      (. js/console log "data: " @state)
+    [:div#summary
+      [:div#today "today's date is 2016-10-13"]
+      [:div#recent "these posts are from " (:date @state)]]))
 
 (defn welcoming-component []
   [:div#welcome "Good morning--"
-   [some-component]])
+   [summary-component]])
 
-(defn summary-component [data]
-  (do (. js/console log data)
-    [:div#summary
-      [:div#today "today's date is 2016-10-13"]
-      [:div#recent "these posts are from " (:date data)]]))
+(defn app-component []
+  [welcoming-component])
 
 (defn init []
-  (reagent/render-component [summary-component db/data]
+  (reagent/render-component [app-component]
                             (.getElementById js/document "container")))
