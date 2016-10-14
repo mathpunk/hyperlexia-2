@@ -7,6 +7,14 @@
 
 (def r (transit/reader :json))
 
+; (def scope (js-obj))
+; (aset scope "var1" "Value")
+; (aget scope "var1")
+;
+; (def scope (js-obj))
+; (set! (.-var2 scope) "Value")
+; (.-var2 scope)
+
 (def input
   (let [r (transit/reader :json)]
     (transit/read r (recent-pins-json))))
