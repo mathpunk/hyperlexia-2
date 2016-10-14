@@ -13,11 +13,11 @@
 ;     ;; [:div {:style {:background-color "light blue"}} [:span.href {:style {:color "violet"}} href]]
 ;     [:div {:style {:background-color "blue" :height 120 :width 450}}] ))
 
-; (defn card [{:keys [href description extended meta hash time shared toread tags] :as props}]
-;   [:p "decsription"])
-
 (defn card [c]
-  [:p (str (js->clj c))])
+  (let [card-data (js->clj c)]
+  [:div.card
+    [:p (card-data "description") (card-data "href")]
+  ]))
 
 (defn summary [data]
     [:div#summary

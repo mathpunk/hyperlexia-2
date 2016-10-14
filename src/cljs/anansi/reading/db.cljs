@@ -12,8 +12,8 @@
     (transit/read r (recent-pins-json))))
 
 (def data
-  { :keys (clj->js (keys input))
-    :date (clj->js (input "date"))
-    :user (clj->js (input "user"))
-    :posts (clj->js (input "posts"))
+  { :keys  (keys input)
+    :date  (input "date")
+    :user  (input "user")
+    :posts (input "posts")
   })
