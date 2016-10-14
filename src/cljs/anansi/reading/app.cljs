@@ -1,14 +1,10 @@
 (ns anansi.reading.app
   (:require [reagent.core :as reagent :refer [atom]]
             [anansi.reading.db :as db]
+            [anansi.reading.components :as c]
             [reagent-material-ui.core :refer [List ListItem]] ))
 
-(declare card)
-
 (defonce state
-  ; (let [data db/data
-  ;       view {:view {:pins {:active (nth (:posts data) 0)}}}]
-  ;   (atom (merge data view))))
   (atom db/data))
 
 (defn welcome []
@@ -37,28 +33,7 @@
       [:p "Let's do the latter, first. My multimethod idea can then be tested with a working and nice-looking component, and I can see if it's a good way to define a component once and then vary it by dispatching on ad hoc types."]
     ]
     [:section#all-pins
-      [:h2 "A sample of data (all the 'recent' pins)"]
-      [List
-        [ListItem "hi"]
-        [ListItem (str "there are " (count (:pins @state)) " pins")]
-        [ListItem (:href (first (:pins @state))) (:tags (first (:pins @state)))]
-      ]]])
-
-(defn pin [p]
-  )
-
-; (defn card [{:keys [href tags], :as props}]
-;   "Our first real component."
-;   (do (. js/console log href)
-;     ;; [:div {:style {:background-color "light blue"}} [:span.href {:style {:color "violet"}} href]]
-;     [:div {:style {:background-color "blue" :height 120 :width 450}}] ))
-
-
-(defn card [c]
-  (let [card-data (js->clj c)]
-  [:div.card
-    [:p (card-data "description") (card-data "href")]
-  ]))
+      [c/pin (:description (first (:pins @state)))] ]])
 
 (defn app []
   [:div#app
