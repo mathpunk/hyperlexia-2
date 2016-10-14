@@ -41,7 +41,7 @@
       [List
         [ListItem "hi"]
         [ListItem (str "there are " (count (:pins @state)) " pins")]
-        [ListItem (:href (first (:pins @state)) )]
+        [ListItem (:href (first (:pins @state))) (:tags (first (:pins @state)))]
       ]]])
 
 (defn pin [p]
