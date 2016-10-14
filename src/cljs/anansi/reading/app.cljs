@@ -2,10 +2,34 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [anansi.reading.db :as db] ))
 
+(declare card)
+
 (def state
   (let [data db/data
         view {:view {:posts {:active (nth (:posts data) 0)}}}]
     (atom (merge data view))))
+
+(defn welcome []
+  [:div#welcome [:h2 "Good morning--"]])
+
+;; Welcome and summary
+(defn summary [data]
+    [:div#summary
+      [:div#today "today is 2016-10-13"]
+      [:div#source (str "viewing " (:user @state) "'s pins, retrieved " (:date @state) )]])
+
+(defn pins []
+  [:div#pins
+    [:h2 "pins"]
+    [:p "We care about firstly, "]
+    [:ul [:li "href"] [:li "tags"]]
+    [:p "Later we will care about"]
+    [:ul [:li "href"] [:li "tags"]
+         [:li "description"] [:li "extended"]]
+
+         
+
+  ])
 
 ; (defn card [{:keys [href tags], :as props}]
 ;   "Our first real component."
@@ -13,41 +37,18 @@
 ;     ;; [:div {:style {:background-color "light blue"}} [:span.href {:style {:color "violet"}} href]]
 ;     [:div {:style {:background-color "blue" :height 120 :width 450}}] ))
 
+
 (defn card [c]
   (let [card-data (js->clj c)]
   [:div.card
     [:p (card-data "description") (card-data "href")]
   ]))
 
-(defn summary [data]
-    [:div#summary
-      [:div#today "today is 2016-10-13"]
-      [:div#source (str "viewing " (:user @state) "'s pins, retrieved " (:date @state) )]
-      [:div#data
-        [:div#keys "They have these keys: "
-          (clojure.string/join  " " (:keys @state))]
-        [:div#user "They have this user: " (:user @state)]
-        [:div#posts "There are fewer than " (+ 1 (count (:posts @state))) " posts"
-        [:div#post-data "The keys of a post are "
-          (let [post ;(get-in @state [:view :posts :active])]
-                 {:hi "there"}]
-            [:p (keys post)])
-            [:p "What we care about are firstly, "]
-            [:code "href tags"]
-            [:p "What we care about are secondly, "]
-            [:code "href description extended tags"]
-            [:article#components
-              [:h2 "part 2: real components"]
-              [card (first (:posts @state))]
-            ] ]]]])
-
-(defn welcome []
-  [:div#welcome "Good morning--"])
-
 (defn app []
   [:div#app
     [welcome]
     [summary]
+    [pins]
   ])
 
 (defn init []
