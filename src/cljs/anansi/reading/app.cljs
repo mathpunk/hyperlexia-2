@@ -1,14 +1,11 @@
 (ns anansi.reading.app
   (:require [reagent.core :as reagent :refer [atom]]
             [anansi.reading.db :as db]
-
-
-
-          ))
+            [reagent-material-ui.core :refer [AppBar Card]] ))
 
 (declare card)
 
-(def state
+(defonce state
   (let [data db/data
         view {:view {:posts {:active (nth (:posts data) 0)}}}]
     (atom (merge data view))))
@@ -19,6 +16,7 @@
 ;; Welcome and summary
 (defn summary [data]
     [:div#summary
+      [:div#app-bar [AppBar {:title "new title"}]]
       [:div#today "today is 2016-10-13"]
       [:div#source (str "viewing " (:user @state) "'s pins, retrieved " (:date @state) )]])
 
