@@ -1,6 +1,11 @@
 (ns anansi.reading.app
-  (:require [reagent.core :as reagent :refer [atom]]
-            [anansi.reading.db :as db] ))
+  (:require [cljsjs.material-ui]
+            [reagent.core :as reagent :refer [atom]]
+            [anansi.reading.db :as db]
+            [cljs-react-material-ui.core :as ui]
+            [cljs-react-material-ui.reagent :as rui]
+            [cljs-react-material-ui.icons :as icons]   ; SVG icons
+          ))
 
 (declare card)
 
