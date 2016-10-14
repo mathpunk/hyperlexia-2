@@ -12,19 +12,24 @@
 (defn welcome []
   [:div#welcome [:h2 "Good morning--"]])
 
-(defn summary [data]
+(defn summary []
     [:div#summary
       [:div#today "today is 2016-10-13"]
       [:div#source
         (str "viewing " (:user @state) "'s pins, retrieved " (:date @state))]
-      ; [:div#source
-      ;   (str "viewing " (.-user @state) "'s pins, retrieved " (.-date @state))]
+      [:div#progress (str (count (:pins @state)) " pins to review")]
     ])
+
+(defn pins []
+  [:div#pins {:style {:margin-top 20}}
+    (c/pin (first (:pins @state)))
+  ])
 
 (defn app []
   [:div#app
     [welcome]
     [summary]
+    [pins]
   ])
 
 (defn init []
