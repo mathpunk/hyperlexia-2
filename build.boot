@@ -15,7 +15,7 @@
                  [reagent "0.6.0" :exclusions [cljsjs/react]]
                  ;; prod
                  [com.cognitect/transit-cljs "0.8.239"]
-                 [cljs-react-material-ui "0.2.24"]
+                 [cljsjs/material-ui "0.15.4-0"]
                  ])
 
 (require
