@@ -15,10 +15,11 @@
 (defn summary [data]
     [:div#summary
       [:div#today "today is 2016-10-13"]
-      ;; [:div#source (str "viewing " (.-user @state))  ]
-      ; [:div#source (str "viewing " (:user @state) "'s pins, retrieved " (:date @state) )]
-      ;; [:div#progress (str "there are " (:unread @state) " unexamined pins")]
-      ])
+      [:div#source
+        (str "viewing " (:user @state) "'s pins, retrieved " (:date @state))]
+      ; [:div#source
+      ;   (str "viewing " (.-user @state) "'s pins, retrieved " (.-date @state))]
+    ])
 
 (defn app []
   [:div#app
