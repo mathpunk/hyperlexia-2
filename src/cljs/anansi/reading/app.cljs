@@ -16,9 +16,8 @@
 ; (defn card [{:keys [href description extended meta hash time shared toread tags] :as props}]
 ;   [:p "decsription"])
 
-; (defn card [c]
-;   [:p (js/JSON.stringify c)])
-
+(defn card [c]
+  [:p (str (js->clj c))])
 
 (defn summary [data]
     [:div#summary
@@ -39,7 +38,7 @@
             [:code "href description extended tags"]
             [:article#components
               [:h2 "part 2: real components"]
-              ;; [card (first (:posts @state))]
+              [card (first (:posts @state))]
             ] ]]]])
 
 (defn welcome []
