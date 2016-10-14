@@ -14,5 +14,5 @@
 (def data
   { :date  (input "date")
     :user  (input "user")
-    :posts (input "posts")
+    :pins (input "posts")
   })

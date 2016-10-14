@@ -1,14 +1,15 @@
 (ns anansi.reading.app
   (:require [reagent.core :as reagent :refer [atom]]
             [anansi.reading.db :as db]
-            [reagent-material-ui.core :refer [AppBar Card]] ))
+            [reagent-material-ui.core :refer [List ListItem]] ))
 
 (declare card)
 
 (defonce state
-  (let [data db/data
-        view {:view {:posts {:active (nth (:posts data) 0)}}}]
-    (atom (merge data view))))
+  ; (let [data db/data
+  ;       view {:view {:pins {:active (nth (:posts data) 0)}}}]
+  ;   (atom (merge data view))))
+  (atom db/data))
 
 (defn welcome []
   [:div#welcome [:h2 "Good morning--"]])
@@ -16,7 +17,6 @@
 ;; Welcome and summary
 (defn summary [data]
     [:div#summary
-      [:div#app-bar [AppBar {:title "new title"}]]
       [:div#today "today is 2016-10-13"]
       [:div#source (str "viewing " (:user @state) "'s pins, retrieved " (:date @state) )]])
 
@@ -36,8 +36,16 @@
       [:p "The other thing I want to do is bring in existing reactive component libraries and work with them, to gain facility with reusing components and to minimize the css wrangling i do until i know what I want to override."]
       [:p "Let's do the latter, first. My multimethod idea can then be tested with a working and nice-looking component, and I can see if it's a good way to define a component once and then vary it by dispatching on ad hoc types."]
     ]
-  ])
+    [:section#all-pins
+      [:h2 "A sample of data (all the 'recent' pins)"]
+      [List
+        [ListItem "hi"]
+        [ListItem (str "there are " (count (:pins @state)) " pins")]
+        [ListItem ((first (:pins @state)) "href" )]
+      ]]])
 
+(defn pin [p]
+  )
 
 ; (defn card [{:keys [href tags], :as props}]
 ;   "Our first real component."
