@@ -11,8 +11,11 @@
       [:div#today "today's date is 2016-10-13"]
       [:div#recent "these posts are from " (:date @state)]
       [:div#data
-      [:div#keys "They have these keys: " (clojure.string/join  " " (:keys @state))]
-      [:div#user "They have this user: " (:user @state)]]]))
+        [:div#keys "They have these keys: "
+          (clojure.string/join  " " (:keys @state))]
+        [:div#user "They have this user: " (:user @state)]
+        [:div#posts "There are fewer than " (+ 1 (count (:posts @state))) " posts"]
+      ]]))
 
 (defn welcoming-component []
   [:div#welcome "Good morning--"

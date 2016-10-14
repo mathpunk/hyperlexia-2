@@ -12,8 +12,8 @@
     (transit/read r (recent-pins-json))))
 
 (def data
-  {
-    :keys (keys input)
+  { :keys (keys input)
     :date (input "date")
     :user (input "user")
-    })
+    :posts (input "posts")
+  })
