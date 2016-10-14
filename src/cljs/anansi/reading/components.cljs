@@ -3,8 +3,8 @@
     :refer [Card CardHeader CardTitle CardText FlatButton Toggle]]))
 
 (defn pin [p]
-  [Card [CardHeader {:title "tweet" :subtitle "tweeted"}]]
-  )
+  [Card [CardHeader {:title "tweet" :subtitle "tweeted"}]])
+  
 ;   render() {
 ;     return (
 ;       <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
