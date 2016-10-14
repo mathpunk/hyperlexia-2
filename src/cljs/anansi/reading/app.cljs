@@ -4,7 +4,7 @@
             [anansi.reading.db :as db]
             [cljs-react-material-ui.core :as ui]
             [cljs-react-material-ui.reagent :as rui]
-            [cljs-react-material-ui.icons :as icons]   ; SVG icons
+            [cljs-react-material-ui.icons :as ic]   ; SVG icons
           ))
 
 (declare card)
@@ -55,12 +55,31 @@
     [:p (card-data "description") (card-data "href")]
   ]))
 
+; (defn app []
+;   [:div#app
+;     [welcome]
+;     [summary]
+;     [pins]
+;   ])
+
 (defn app []
-  [:div#app
-    [welcome]
-    [summary]
-    [pins]
-  ])
+  [rui/mui-theme-provider
+   {:mui-theme (ui/get-mui-theme
+                 {:palette {:text-color (ui/color :green600)}})}
+   [:div
+    [rui/app-bar {:title              "Title"
+                  :icon-element-right (ui/icon-button
+                                        (ic/action-account-balance-wallet))}]
+    [rui/paper
+     [:div "Hello"]
+     [rui/mui-theme-provider
+      {:mui-theme (ui/get-mui-theme {:palette {:text-color (ui/color :blue200)}})}
+      [rui/raised-button {:label "Blue button"}]]
+     (ic/action-home {:color (ui/color :grey600)})
+     [rui/raised-button {:label        "Click me"
+                         :icon         (ic/social-group)
+                         :on-touch-tap #(println "clicked")}]]]])
+
 
 (defn init []
   (reagent/render-component [app]
