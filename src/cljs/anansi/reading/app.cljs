@@ -14,7 +14,9 @@
         [:div#keys "They have these keys: "
           (clojure.string/join  " " (:keys @state))]
         [:div#user "They have this user: " (:user @state)]
-        [:div#posts "There are fewer than " (+ 1 (count (:posts @state))) " posts"]
+        [:div#posts "There are fewer than " (+ 1 (count (:posts @state))) " posts"
+        [:div#active-post "This is the first post: " (first (:posts @state))]
+        ]
       ]]))
 
 (defn welcoming-component []
