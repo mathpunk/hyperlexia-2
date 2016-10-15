@@ -3,19 +3,18 @@
     :refer [Avatar Card CardActions CardHeader CardTitle CardText FlatButton Toggle]]))
 
 ;; Tags
+(defn tags [p]
+  (if (empty? (:tags p))
+  ""
+  (clojure.string/split (:tags p) #" ") ) )
 
 (defn Chip [& args]
   (conj [:div {:style {:color "blue"}}] args))
 
-(defn Tags [p]
-  (let [tags (clojure.string/split (:tags p) #" ")]
-    [:div.tags tags]
-  )
-  )
-
 ;; Cards
 (defn card [p]
   [Card {:key (:hash p)}
-    [CardHeader {:title "card" :subtitle "information"}]
-    [Tags p]
+    [CardHeader {:title (:description p)
+                 :subtitle (:href p)}]
+    [CardText (str "tags: " (clojure.string/join ", " (tags p) ))]
   ])
