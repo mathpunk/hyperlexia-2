@@ -14,10 +14,7 @@
   (let [r (transit/reader :json)]
     (keywordize-keys (transit/read r fixture))))
 
-(def data
-    { :date (:date recent-pins)
-      :user (:user recent-pins)
-      :pins (:posts recent-pins) } )
+(def data (recent-pins))
 
 (def schema
   ;; { :entity/attribute {:db/attribute :db.attribute/value} ... }
@@ -47,14 +44,15 @@
              :pin/user (:user pin)
              :pin/status-id (:status-id pin)
              :pin/tags (clojure.string/split (:tags pin) #" ") }]
-        (d/transact! conn [ent])
+        (do (println "adding pin")
+        (d/transact! conn [ent]))
       ))
 
-(defonce load (do (. js/console log "Loading: " (clj->js data))
-(map (fn [p]
-    (do (. js/console log p)
-        (add-pin p))) (:pins data))
-    ))
+(defonce load
+  (do
+    (. js/console log "Loading: " (clj->js (:posts data)))
+    (. js/console log "First post: " (clj->js (first (:posts data))))
+    (add-pin (first (:posts data)))))
 
 
 ;; Views
