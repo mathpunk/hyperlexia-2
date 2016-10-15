@@ -31,9 +31,8 @@
     tw
   ))
 
-(defn add-pin [p]
-  (let [pin (destructure-tweet p)
-        ent {:pin/time (:time pin)
+(defn add-pin [pin]
+  (let [ent {:pin/time (:time pin)
              :pin/href (:href pin)
              :pin/description (:description pin)
              :pin/extended (:extended pin)
@@ -41,18 +40,19 @@
              :pin/hash (:hash pin)
              :pin/shared (:shared pin)
              :pin/toread (:toread pin)
-             :pin/user (:user pin)
-             :pin/status-id (:status-id pin)
-             :pin/tags (clojure.string/split (:tags pin) #" ") }]
+             ;; :pin/user (:user pin)
+             ;; :pin/status-id (:status-id pin)
+             ;; :pin/tags (clojure.string/split (:tags pin) #" ") }]
+           }]
         (do (println "adding pin")
-        (d/transact! conn [ent]))
+          (d/transact! conn [ent]))
       ))
 
 (defonce load
   (do
     (. js/console log "Loading: " (clj->js (:posts data)))
     (. js/console log "First post: " (clj->js (first (:posts data))))
-    (add-pin (first (:posts data)))))
+    (map add-pin (:posts data))))
 
 
 ;; Views
@@ -69,8 +69,10 @@
     ])
 
 (defn review-pane [db]
+  ;; (d/transact! conn [{:pins/description "hiii"}])
   [:div#pins {:style {:margin-top 20}}
-    (map c/card (:pins db))
+    ;; (map c/card (:pins db))
+    (:eavt @conn)
   ])
 
 (defn app [db]
@@ -84,6 +86,7 @@
   ([] (render @conn))
   ([db] (reagent/render-component [app db]
                             (.getElementById js/document "container"))))
+
 (d/listen! conn :render
   (fn [tx-report] (render (:db-after tx-report))))
 
