@@ -52,6 +52,9 @@
     [pins]
   ])
 
-(defn render []
-  (reagent/render-component [app @conn]
-                            (.getElementById js/document "container")))
+(defn render
+  ([] (render @conn))
+  ([db] (reagent/render-component [app db]
+                            (.getElementById js/document "container"))))
+(d/listen! conn :render
+  (fn [tx-report] (render (:db-after tx-report))))
