@@ -5,18 +5,7 @@
             [ring.middleware.not-modified :refer [wrap-not-modified]]
             [compojure.route :as route]))
 
-; (def frozen-pins
-;   (slurp "/Users/thomash/elements/fireWands/webmaker/anansi/resources/data/recent_pins.json"))
-
 (defroutes server
+  (GET "/" [] (ring.util.response/redirect "/index.html"))
+  (GET "/data" [] (do (println "data") "<h1>Data route</h1>"))
   (route/resources "/"))
-  ; (GET "/data" []
-  ;   (do ;; (println frozen-pins)
-  ;        "<h1>Data route</h1>"))
-  ; (route/not-found "<h1>Page not found</h1>"))
-
-; (def server
-;   (-> app
-;       (wrap-resource "public")
-;       (wrap-content-type)
-;       (wrap-not-modified)))
