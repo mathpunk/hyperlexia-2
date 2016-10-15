@@ -1,7 +1,21 @@
 (ns anansi.reading.components
   (:require [reagent-material-ui.core
-    :refer [Avatar Card CardHeader CardTitle CardText FlatButton Toggle]]))
+    :refer [Avatar Card CardActions CardHeader CardTitle CardText FlatButton Toggle]]))
 
-;; Item Cards
+;; Tags
+
+(defn Chip [& args]
+  (conj [:div {:style {:color "blue"}}] args))
+
+(defn Tags [p]
+  (let [tags (clojure.string/split (:tags p) #" ")]
+    [:div.tags tags]
+  )
+  )
+
+;; Cards
 (defn card [p]
-  [Card [CardText "This is a card."]])
+  [Card {:key (:hash p)}
+    [CardHeader {:title "card" :subtitle "information"}]
+    [Tags p]
+  ])

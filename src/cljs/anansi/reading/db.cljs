@@ -10,16 +10,13 @@
   (let [r (transit/reader :json)]
     (keywordize-keys (transit/read r (recent-pins-json)))))
 
-; (defn type-post [p]
-;   (if-let [matches (re-matches #"https://twitter\.com/(\w+)/status/([0-9]+).*" (:href p))]
-;     {:href (nth matches 0),
-;      :twitter-user (nth matches 1),
-;      :status-id (nth matches 2),
-;      :tags (:tags p)})
-
+(defn transform [p]
+  (if-let [matches (re-matches #"https://twitter\.com/(\w+)/([0-9]+).*" (:href p))]
+    (assoc p :twitter-user (nth matches 1) :status-id (nth matches 2))
+  ))
 
 (def data
   { :date (:date input)
     :user (:user input)
-    :pins (filter #(re-matches #"https://twitter\.com.*" (:href %)) (:posts input))
+    :pins (:posts input)
   })
