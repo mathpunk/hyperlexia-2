@@ -15,10 +15,9 @@
     (keywordize-keys (transit/read r fixture))))
 
 (def data
-  (do
     { :date (:date recent-pins)
       :user (:user recent-pins)
-      :pins (:posts recent-pins) } ))
+      :pins (:posts recent-pins) } )
 
 (def schema
   ;; { :entity/attribute {:db/attribute :db.attribute/value} ... }
@@ -27,11 +26,12 @@
      :pin/tags {:db/cardinality :db.cardinality/many}
     })
 
-(defonce conn (d/create-conn schema))
+(defonce conn (do (. js/console log "Creating connection") (d/create-conn schema)))
 
 (defn destructure-tweet [tw]
-  (when-let [matches (re-matches #"https://twitter\.com/(\w+)/status/(]0-9]+).*" (:href tw))]
+  (if-let [matches (re-matches #"https://twitter\.com/(\w+)/status/(]0-9]+).*" (:href tw))]
     (assoc tw :user (nth matches 1) :status-id (nth matches 2))
+    tw
   ))
 
 (defn add-pin [p]
@@ -50,10 +50,11 @@
         (d/transact! conn [ent])
       ))
 
-(defonce load
-  (map (fn [p]
+(defonce load (do (. js/console log "Loading: " (clj->js data))
+(map (fn [p]
     (do (. js/console log p)
-        (add-pin p))) (:pins data)))
+        (add-pin p))) (:pins data))
+    ))
 
 
 ;; Views
