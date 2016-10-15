@@ -15,6 +15,7 @@
                  [reagent "0.6.0" :exclusions [cljsjs/react]]
                  ;; prod
                  [ring/ring-core "1.5.0"]
+                 [garden "1.3.2"]
                  [compojure "1.5.1"]
                  [com.cognitect/transit-cljs "0.8.239"]
                  [reagent-material-ui "0.2.1"]
@@ -33,7 +34,7 @@
   (comp (notify) ;; could also use (speak) but not until i can change the sounds
         (cljs)
         (garden :styles-var 'anansi.styles/screen
-:output-to "css/garden.css")))
+:output-to "public/css/garden.css")))
 
 (deftask run []
   (comp (serve :handler 'anansi.server/server :reload true)
