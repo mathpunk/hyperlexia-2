@@ -1,5 +1,6 @@
 (ns anansi.server
   (:require [compojure.core :refer :all]
+            [anansi.data :refer :all]
             [ring.middleware.resource :refer [wrap-resource]]
             [ring.middleware.content-type :refer [wrap-content-type]]
             [ring.middleware.not-modified :refer [wrap-not-modified]]
@@ -7,5 +8,5 @@
 
 (defroutes server
   (GET "/" [] (ring.util.response/redirect "/index.html"))
-  (GET "/data" [] (do (println "data") "<h1>Data route</h1>"))
+  (GET "/data" [] (do (println data) "<h1>Data route</h1>"))
   (route/resources "/"))
