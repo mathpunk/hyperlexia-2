@@ -16,6 +16,7 @@
                  ;; prod
                  [com.cognitect/transit-cljs "0.8.239"]
                  [reagent-material-ui "0.2.1"]
+                 [datascript "0.15.4"]
                  ])
 
 (require
@@ -48,7 +49,7 @@
 
 (deftask development []
   (task-options! cljs {:optimizations :none :source-map true}
-                 reload {:on-jsload 'anansi.reading.app/init})
+                 reload {:on-jsload 'anansi.reading.app/render})
   identity)
 
 (deftask dev
