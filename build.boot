@@ -36,7 +36,7 @@
 :output-to "css/garden.css")))
 
 (deftask run []
-  (comp (serve :handler 'anansi.server/app :reload true)
+  (comp (serve :handler 'anansi.server/server :reload true)
         (watch)
         (cljs-repl)
         (reload)
