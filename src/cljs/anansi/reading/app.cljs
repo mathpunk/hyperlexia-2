@@ -69,7 +69,7 @@
     ])
 
 (defn review-pane [db]
-  ;; (d/transact! conn [{:pins/description "hiii"}])
+  (d/transact! conn [{:pins/description "hiii"}])
   [:div#pins {:style {:margin-top 20}}
     ;; (map c/card (:pins db))
     (:eavt @conn)
