@@ -29,33 +29,52 @@
 
 (defonce conn (d/create-conn schema))
 
-(defonce state
-  (let [session {:unread (count (:pins data))}]
-        (atom (merge data session))))
+(defn destructure-tweet [tw]
+  (when-let [matches (re-matches #"https://twitter\.com/(\w+)/status/(]0-9]+).*" (:href tw))]
+    (assoc tw :user (nth matches 1) :status-id (nth matches 2))
+  ))
+
+(defn add-pin [p]
+  (when-let [pin (destructure-tweet p)]
+    (let [ent {:pin/time (:time pin)
+               :pin/href (:href pin)
+               :pin/description (:description pin)
+               :pin/extended (:extended pin)
+               :pin/meta (:meta pin)
+               :pin/hash (:hash pin)
+               :pin/shared (:shared pin)
+               :pin/toread (:toread pin)
+               :pin/user (:user pin)
+               :pin/status-id (:status-id pin)
+               :pin/tags (clojure.string/split (:tags pin) #" ") }]
+            (d/transact! conn [ent])
+      )))
+
+(defonce load (map add-pin (:pins data)))
 
 ;; Views
 ;; =====
 (defn welcome-pane []
   [:div#welcome [:h2 "Good morning--"]])
 
-(defn summary-pane []
+(defn summary-pane [db]
     [:div#summary
       [:div#today "today is 2016-10-13"]
       [:div#source
-        (str "viewing " (:user @state) "'s pins, retrieved " (:date @state))]
-      [:div#progress (str (count (:pins @state)) " pins to review")]
+        (str "viewing " (:user db) "'s pins, retrieved " (:date db))]
+      [:div#progress (str (count (:pins db)) " pins to review")]
     ])
 
-(defn review-pane []
+(defn review-pane [db]
   [:div#pins {:style {:margin-top 20}}
-    (map c/card (:pins @state))
+    (map c/card (:pins db))
   ])
 
 (defn app [db]
   [:div#app
     [welcome-pane]
-    [summary-pane]
-    [review-pane]
+    [summary-pane data]
+    [review-pane db]
   ])
 
 (defn render
@@ -64,3 +83,6 @@
                             (.getElementById js/document "container"))))
 (d/listen! conn :render
   (fn [tx-report] (render (:db-after tx-report))))
+
+(d/listen! conn :log
+  (fn [tx-report] (println (:tx-data tx-report))))
