@@ -22,8 +22,10 @@
 
 (defn pins []
   [:div#pins {:style {:margin-top 20}}
-    (map c/pin (:pins @state))
+    (map c/card (:pins @state))
   ])
+
+
 
 (defn app []
   [:div#app
