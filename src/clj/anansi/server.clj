@@ -5,15 +5,15 @@
             [ring.middleware.not-modified :refer [wrap-not-modified]]
             [compojure.route :as route]))
 
+(def frozen-pins
+  (slurp "/Users/thomash/elements/fireWands/webmaker/anansi/resources/data/recent_pins.json"))
+
 (defroutes app
   ;; (route/resources "/")
   (GET "/data" []
-    (do (println "data")
+    (do (println frozen-pins)
          "<h1>Data route</h1>"))
   (route/not-found "<h1>Page not found</h1>"))
-
-
-
 
 (def server
   (-> app
