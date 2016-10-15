@@ -15,10 +15,10 @@
     (keywordize-keys (transit/read r fixture))))
 
 (def data
-  { :date (:date recent-pins)
-    :user (:user recent-pins)
-    :pins (:posts recent-pins)
-  })
+  (do
+    { :date (:date recent-pins)
+      :user (:user recent-pins)
+      :pins (:posts recent-pins) } ))
 
 (def schema
   ;; { :entity/attribute {:db/attribute :db.attribute/value} ... }
@@ -35,22 +35,26 @@
   ))
 
 (defn add-pin [p]
-  (when-let [pin (destructure-tweet p)]
-    (let [ent {:pin/time (:time pin)
-               :pin/href (:href pin)
-               :pin/description (:description pin)
-               :pin/extended (:extended pin)
-               :pin/meta (:meta pin)
-               :pin/hash (:hash pin)
-               :pin/shared (:shared pin)
-               :pin/toread (:toread pin)
-               :pin/user (:user pin)
-               :pin/status-id (:status-id pin)
-               :pin/tags (clojure.string/split (:tags pin) #" ") }]
-            (d/transact! conn [ent])
-      )))
+  (let [pin (destructure-tweet p)
+        ent {:pin/time (:time pin)
+             :pin/href (:href pin)
+             :pin/description (:description pin)
+             :pin/extended (:extended pin)
+             :pin/meta (:meta pin)
+             :pin/hash (:hash pin)
+             :pin/shared (:shared pin)
+             :pin/toread (:toread pin)
+             :pin/user (:user pin)
+             :pin/status-id (:status-id pin)
+             :pin/tags (clojure.string/split (:tags pin) #" ") }]
+        (d/transact! conn [ent])
+      ))
 
-(defonce load (map add-pin (:pins data)))
+(defonce load
+  (map (fn [p]
+    (do (. js/console log p)
+        (add-pin p))) (:pins data)))
+
 
 ;; Views
 ;; =====
@@ -74,7 +78,7 @@
   [:div#app
     [welcome-pane]
     [summary-pane data]
-    [review-pane db]
+    [review-pane data]
   ])
 
 (defn render
