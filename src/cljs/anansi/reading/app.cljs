@@ -22,14 +22,14 @@
 
 (defn add-pin [pin]
   (println "add-pin called!")
-  (let [ent {:pin/time (:time pin)
-             :pin/href (:href pin)
-             :pin/description (:description pin)
-             :pin/extended (:extended pin)
-             :pin/meta (:meta pin)
-             :pin/hash (:hash pin)
-             :pin/shared (:shared pin)
-             :pin/toread (:toread pin)
+  (let [ent {;; :pin/time (:time pin)
+             ;; :pin/href (:href pin)
+             :pin/description "A pin's description"
+             ;; :pin/extended (:extended pin)
+             ;; :pin/meta (:meta pin)
+             ;; :pin/hash (:hash pin)
+             ;; :pin/shared (:shared pin)
+             ;; :pin/toread (:toread pin)
              ;; :pin/user (:user pin)
              ;; :pin/status-id (:status-id pin)
              ;; :pin/tags (clojure.string/split (:tags pin) #" ") }]
@@ -40,12 +40,13 @@
 
 (defonce state (atom {}))
 
-(defn handler [res]
+  (defn handler [res]
     (let [edn (edn/read-string res)]
-      (println "data arrives; maps with keys such as " (keys (first (:posts edn))))
-      (reset! state edn)              ;; the state atom gets filled here,
-      (println "state set: user " (:user @state) ", date " (:date @state) ", " (count (:posts @state)) " posts")
-      (map add-pin (:posts @state))))   ;; ...and yet this never gets called? why?
+      (do
+        (println "data arrives; maps with keys such as " (keys (first (:posts edn))))
+        (reset! state edn)              ;; the state atom gets filled here,
+        (println "state set: user " (:user @state) ", date " (:date @state) ", " (count (:posts @state)) " posts")
+        (map add-pin (:posts @state)) )))   ;; ...and yet this never gets called? why?
 
 (defn error-handler [{:keys [status status-text]}]
   (println (str "something bad happened: " status " " status-text)))
