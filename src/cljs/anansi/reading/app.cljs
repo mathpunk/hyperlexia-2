@@ -13,11 +13,10 @@
 (declare add-pin)
 
 (defn handler [res]
-    (. js/console log "data from the server"  res)
     (let [edn (edn/read-string res)]
+      (. js/console log "data from the server" (clj->js (keys (first (:posts edn)))))
       (reset! state edn)
-      (map add-pin (:posts edn)))
-    )
+      (map add-pin (:posts edn))))
 
 (defn error-handler [{:keys [status status-text]}]
   (.log js/console (str "something bad happened: " status " " status-text)))
