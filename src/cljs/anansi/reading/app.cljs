@@ -13,7 +13,8 @@
 (declare add-pin)
 
 (defn handler [res]
-    (. js/console log "raw data from the server" res)
+    (. js/console log "data from the server" res)
+    (reset! state res)
     (map add-pin (:posts res)))
 
 (defn error-handler [{:keys [status status-text]}]
@@ -58,12 +59,12 @@
       [:div#today "today is 2016-10-13"]
       [:div#source
         (str "viewing " (:user @db) "'s pins, retrieved " (:date @db))]
-      [:div#progress (str (count (:pins @db)) " pins to review")]
+      [:div#progress (str (count (:posts @db)) " pins to review")]
     ])
 
 (defn review-pane [db]
   ;; (d/transact! conn [{:pins/description "hiii"}])
-  [:div#pins {:style {:margin-top 20}} [:h3 "Data"] (str (:posts @db))])
+  [:div#pins {:style {:margin-top 20}} [:h3 "Data"] (:eavt @db)])
 
 (defn app [db]
   [:div#app
