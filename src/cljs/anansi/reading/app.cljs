@@ -12,7 +12,9 @@
 (defonce state (atom {}))
 
 (defn handler [res]
-  (. js/console log res))
+  ; (let [r (transit/reader :json)
+  ;       data (transit/read r res)]
+    (. js/console log res))
 
 (defn error-handler [{:keys [status status-text]}]
   (.log js/console (str "something bad happened: " status " " status-text)))
