@@ -23,6 +23,14 @@
 (def data
   (recent-pins #(. js/console log (clj->js %))))
 
+(defn handler [response]
+  (.log js/console (str response)))
+
+(defn error-handler [{:keys [status status-text]}]
+  (.log js/console (str "something bad happened: " status " " status-text)))
+
+(GET "/data" {:handler handler
+               :error-handler error-handler})
 ; (def data
 ;   (let [d (recent-pins read)]
 ;   (. js/console log d) ) )
