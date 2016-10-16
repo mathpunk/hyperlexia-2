@@ -17,10 +17,11 @@
     })
 
 (defonce conn
-  (do (. js/console log "Creating connection")
+  (do (println "Creating connection")
       (d/create-conn schema)))
 
 (defn add-pin [pin]
+  (println "add-pin called!")
   (let [ent {:pin/time (:time pin)
              :pin/href (:href pin)
              :pin/description (:description pin)
@@ -41,18 +42,16 @@
 
 (defn handler [res]
     (let [edn (edn/read-string res)]
-      (. js/console log "data does arrive from the server; here's an item with keys " (clj->js (keys (first (:posts edn)))))
+      (println "data arrives; maps with keys such as " (keys (first (:posts edn))))
       (reset! state edn)              ;; the state atom gets filled here,
-      (map add-pin (:posts edn))))    ;; but the db does not trigger log messages,
-                                      ;; and I kinda doubt is has anything in it?
+      (println "state set: user " (:user @state) ", date " (:date @state) ", " (count (:posts @state)) " posts")
+      (map add-pin (:posts @state))))   ;; ...and yet this never gets called? why?
 
 (defn error-handler [{:keys [status status-text]}]
-  (.log js/console (str "something bad happened: " status " " status-text)))
+  (println (str "something bad happened: " status " " status-text)))
 
 (GET "/recent" {:handler handler
               :error-handler error-handler})
-
-(map add-pin data/fixture)
 
 ;; View
 ;; ====
@@ -61,7 +60,7 @@
 
 (defn summary-pane [db]
     [:div#summary
-      [:div#today "today is 2016-10-13"]
+      [:div#today "today is 2016-10-16"]
       [:div#source
         (str "viewing " (:user @db) "'s pins, retrieved " (:date @db))]
       [:div#progress (str (count (:posts @db)) " pins to review")]
