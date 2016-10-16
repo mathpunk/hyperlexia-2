@@ -4,29 +4,22 @@
             [anansi.reading.components :as c]
             [clojure.walk :refer [keywordize-keys]]
             [cognitect.transit :as transit]
-          [clojure.tools.reader.edn :as edn]
+            [clojure.tools.reader.edn :as edn]
             [datascript.core :as d]
             [reagent-material-ui.core :refer [List ListItem]] ))
 (enable-console-print!)
 
-; (defn recent-pins [cb]
-;   (let [data (GET "/data")]
-;     (cb data)))
-
-; (defn read [s]
-;   (let [r (transit/reader :json)]
-;     (transit/read r s)
-;   ))
+(defonce state (atom {}))
 
 (defn handler [response]
   (let [data (edn/read-string response)]
-  (.log js/console (clojure.string/join " " (keys data)))) )
+    (reset! state data)))
 
 (defn error-handler [{:keys [status status-text]}]
   (.log js/console (str "something bad happened: " status " " status-text)))
 
 (GET "/data" {:handler handler
-               :error-handler error-handler})
+              :error-handler error-handler})
 
 (def schema
   ;; { :entity/attribute {:db/attribute :db.attribute/value} ... }
@@ -82,14 +75,13 @@
 
 (defn review-pane [db]
   ;; (d/transact! conn [{:pins/description "hiii"}])
-  [:div#pins {:style {:margin-top 20}} [:h3 "Data"]
-  [:p data]])
+  [:div#pins {:style {:margin-top 20}} [:h3 "Data"] ])
 
 (defn app [db]
   [:div#app
     [welcome-pane]
-    [summary-pane data]
-    [review-pane data]
+    [summary-pane @state]
+    [review-pane @state]
   ])
 
 (defn render
