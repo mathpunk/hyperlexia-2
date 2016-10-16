@@ -13,14 +13,13 @@
 
 (defn handler [response]
   (let [data (edn/read-string response)]
-    (reset! state data)))
+    (do (. js/console log data)
+        (reset! state data))) )
 
 (defn error-handler [{:keys [status status-text]}]
   (.log js/console (str "something bad happened: " status " " status-text)))
 
-(def recent-pins-url "https://mathpunk:u890ppnb@api.pinboard.in/v1/posts/recent?format=json")
-
-(GET recent-pins-url {:handler handler
+(GET "/recent" {:handler handler
               :error-handler error-handler})
 
 (def posts (get-in @state [:posts]))
