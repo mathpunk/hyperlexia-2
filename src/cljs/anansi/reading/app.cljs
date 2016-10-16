@@ -40,13 +40,13 @@
 
 (defonce state (atom {}))
 
-  (defn handler [res]
-    (let [edn (edn/read-string res)]
-      (do
-        (println "data arrives; maps with keys such as " (keys (first (:posts edn))))
-        (reset! state edn)              ;; the state atom gets filled here,
-        (println "state set: user " (:user @state) ", date " (:date @state) ", " (count (:posts @state)) " posts")
-        (map add-pin (:posts @state)) )))   ;; ...and yet this never gets called? why?
+(defn handler [res]
+  (let [edn (edn/read-string res)]
+    (do
+      (println "data arrives; maps with keys such as " (keys (first (:posts edn))))
+      (reset! state edn)              ;; the state atom gets filled here,
+      (println "state set: user " (:user @state) ", date " (:date @state) ", " (count (:posts @state)) " posts")
+      (map add-pin (:posts @state)) )))   ;; ...and yet this never gets called? why?
 
 (defn error-handler [{:keys [status status-text]}]
   (println (str "something bad happened: " status " " status-text)))
