@@ -35,7 +35,7 @@
   (comp (notify) ;; could also use (speak) but not until i can change the sounds
         (cljs)
         (garden :styles-var 'anansi.styles/screen
-:output-to "public/css/garden.css")))
+:output-to "css/garden.css")))
 
 (deftask run []
   (comp (serve :handler 'anansi.server/server :reload true)
