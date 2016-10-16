@@ -9,11 +9,12 @@
                  [org.clojure/tools.nrepl   "0.2.12"     :scope "test"]
                  [weasel                    "0.7.0"      :scope "test"]
                  [proto-repl                "0.3.1"      :scope "test"]
-                 [org.clojure/clojurescript "1.9.229"]
                  [crisptrutski/boot-cljs-test "0.2.0-SNAPSHOT" :scope "test"]
                  [org.martinklepsch/boot-garden "1.2.5-3" :scope "test"]
-                 [reagent "0.6.0" :exclusions [cljsjs/react]]
                  ;; prod
+                 [org.clojure/clojurescript "1.9.229"]
+                 [reagent "0.6.0" :exclusions [cljsjs/react]]
+                 [cljs-ajax "0.5.8"]
                  [ring/ring-core "1.5.0"]
                  [garden "1.3.2"]
                  [compojure "1.5.1"]
@@ -21,8 +22,7 @@
                 ;; [com.cognitect/transit-clj "0.8.290"]
                  [cheshire "5.6.3"]
                  [reagent-material-ui "0.2.1"]
-                 [datascript "0.15.4"]
-                 ])
+                 [datascript "0.15.4"] ])
 
 (require
  '[adzerk.boot-cljs      :refer [cljs]]

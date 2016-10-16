@@ -8,5 +8,5 @@
 
 (defroutes server
   (GET "/" [] (ring.util.response/redirect "/index.html"))
-  (GET "/data" [] (do (println data) "<h1>Data route</h1>"))
+  (GET "/data" [] (str data))
   (route/resources "/"))
