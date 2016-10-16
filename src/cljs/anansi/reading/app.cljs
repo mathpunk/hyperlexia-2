@@ -1,5 +1,6 @@
 (ns anansi.reading.app
   (:require [reagent.core :as reagent :refer [atom]]
+            [anansi.reading.db :as data]
             [ajax.core :refer [GET POST]]
             [anansi.reading.components :as c]
             [clojure.walk :refer [keywordize-keys]]
@@ -51,10 +52,12 @@
 (GET "/recent" {:handler handler
               :error-handler error-handler})
 
+(map add-pin data/fixture)
+
 ;; View
 ;; ====
 (defn welcome-pane []
-  [:div#welcome [:h2 "Good morning--"]])
+  [:div#welcome [:h2 "Good afternoon--"]])
 
 (defn summary-pane [db]
     [:div#summary
