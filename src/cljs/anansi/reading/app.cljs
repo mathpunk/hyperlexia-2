@@ -3,7 +3,6 @@
             [ajax.core :refer [GET POST]]
             [anansi.reading.components :as c]
             [clojure.walk :refer [keywordize-keys]]
-            [cognitect.transit :as transit]
             [clojure.tools.reader.edn :as edn]
             [datascript.core :as d]
             [reagent-material-ui.core :refer [List ListItem]] ))
@@ -12,8 +11,6 @@
 (defonce state (atom {}))
 
 (defn handler [res]
-  ; (let [r (transit/reader :json)
-  ;       data (transit/read r res)]
     (. js/console log res))
 
 (defn error-handler [{:keys [status status-text]}]
