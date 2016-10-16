@@ -8,23 +8,6 @@
             [reagent-material-ui.core :refer [List ListItem]] ))
 (enable-console-print!)
 
-(defonce state (atom {}))
-
-(declare add-pin)
-
-(defn handler [res]
-    (let [edn (edn/read-string res)]
-      (. js/console log "data does arrive from the server; here's an item with keys " (clj->js (keys (first (:posts edn)))))
-      (reset! state edn)              ;; the state atom gets filled here,
-      (map add-pin (:posts edn))))    ;; but the db does not trigger log messages,
-                                      ;; and I kinda doubt is has anything in it? 
-
-(defn error-handler [{:keys [status status-text]}]
-  (.log js/console (str "something bad happened: " status " " status-text)))
-
-(GET "/recent" {:handler handler
-              :error-handler error-handler})
-
 (def schema
   ;; { :entity/attribute {:db/attribute :db.attribute/value} ... }
     {:pin/user {:db/valueType :db.type/ref}
@@ -32,7 +15,9 @@
      :pin/tags {:db/cardinality :db.cardinality/many}
     })
 
-(defonce conn (do (. js/console log "Creating connection") (d/create-conn schema)))
+(defonce conn
+  (do (. js/console log "Creating connection")
+      (d/create-conn schema)))
 
 (defn add-pin [pin]
   (let [ent {:pin/time (:time pin)
@@ -51,8 +36,23 @@
           (d/transact! conn [ent]))
       ))
 
-;; Views
-;; =====
+(defonce state (atom {}))
+
+(defn handler [res]
+    (let [edn (edn/read-string res)]
+      (. js/console log "data does arrive from the server; here's an item with keys " (clj->js (keys (first (:posts edn)))))
+      (reset! state edn)              ;; the state atom gets filled here,
+      (map add-pin (:posts edn))))    ;; but the db does not trigger log messages,
+                                      ;; and I kinda doubt is has anything in it?
+
+(defn error-handler [{:keys [status status-text]}]
+  (.log js/console (str "something bad happened: " status " " status-text)))
+
+(GET "/recent" {:handler handler
+              :error-handler error-handler})
+
+;; View
+;; ====
 (defn welcome-pane []
   [:div#welcome [:h2 "Good morning--"]])
 
