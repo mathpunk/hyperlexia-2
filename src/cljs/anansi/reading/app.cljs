@@ -21,6 +21,8 @@
 (GET "/data" {:handler handler
               :error-handler error-handler})
 
+(def posts (get-in @state [:posts]))
+
 (def schema
   ;; { :entity/attribute {:db/attribute :db.attribute/value} ... }
     {:pin/user {:db/valueType :db.type/ref}
@@ -69,19 +71,19 @@
     [:div#summary
       [:div#today "today is 2016-10-13"]
       [:div#source
-        (str "viewing " (:user db) "'s pins, retrieved " (:date db))]
-      [:div#progress (str (count (:pins db)) " pins to review")]
+        (str "viewing " (:user @db) "'s pins, retrieved " (:date @db))]
+      [:div#progress (str (count (:pins @db)) " pins to review")]
     ])
 
 (defn review-pane [db]
   ;; (d/transact! conn [{:pins/description "hiii"}])
-  [:div#pins {:style {:margin-top 20}} [:h3 "Data"] ])
+  [:div#pins {:style {:margin-top 20}} [:h3 "Data"] (str (:posts @db))])
 
 (defn app [db]
   [:div#app
     [welcome-pane]
-    [summary-pane @state]
-    [review-pane @state]
+    [summary-pane state]
+    [review-pane state]
   ])
 
 (defn render
