@@ -18,7 +18,9 @@
 (defn error-handler [{:keys [status status-text]}]
   (.log js/console (str "something bad happened: " status " " status-text)))
 
-(GET "/data" {:handler handler
+(def recent-pins-url "https://mathpunk:u890ppnb@api.pinboard.in/v1/posts/recent?format=json")
+
+(GET recent-pins-url {:handler handler
               :error-handler error-handler})
 
 (def posts (get-in @state [:posts]))
@@ -54,13 +56,6 @@
         (do (println "adding pin")
           (d/transact! conn [ent]))
       ))
-
-; (defonce load
-;   (do
-;     (. js/console log "Loading: " (clj->js (:posts data)))
-;     (. js/console log "First post: " (clj->js (first (:posts data))))
-;     (map add-pin (:posts data))))
-
 
 ;; Views
 ;; =====
