@@ -15,7 +15,7 @@
 (defn handler [res]
     (let [edn (edn/read-string res)]
       (. js/console log "data does arrive from the server; here's an item with keys " (clj->js (keys (first (:posts edn)))))
-      (reset! state edn)              ;; the state atom gets filled
+      (reset! state edn)              ;; the state atom gets filled here,
       (map add-pin (:posts edn))))    ;; but the db does not trigger log messages,
                                       ;; and I kinda doubt is has anything in it? 
 
