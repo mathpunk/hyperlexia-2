@@ -10,8 +10,11 @@
 
 (defonce state (atom {}))
 
+(declare add-pin)
+
 (defn handler [res]
-    (. js/console log res))
+    (. js/console log "raw data from the server" res)
+    (map add-pin (:posts res)))
 
 (defn error-handler [{:keys [status status-text]}]
   (.log js/console (str "something bad happened: " status " " status-text)))

@@ -18,7 +18,6 @@
                  [ring/ring-core "1.5.0"]
                  [garden "1.3.2"]
                  [compojure "1.5.1"]
-                 [com.cognitect/transit-cljs "0.8.239"]
                  [org.clojure/tools.reader "1.0.0-beta3"]
                  [clj-http "2.3.0"]
                  [reagent-material-ui "0.2.1"]
