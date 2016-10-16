@@ -11,11 +11,6 @@
 
 (defonce state (atom {}))
 
-; (defn handler [response]
-;   (let [data (edn/read-string response)]
-;     (do (. js/console log data)
-;         (reset! state data))) )
-
 (defn handler [res]
   (. js/console log res))
 
