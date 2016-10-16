@@ -9,6 +9,9 @@
                  [org.clojure/tools.nrepl   "0.2.12"     :scope "test"]
                  [weasel                    "0.7.0"      :scope "test"]
                  [proto-repl                "0.3.1"      :scope "test"]
+                 [binaryage/devtools      "0.8.2" :scope "test"]
+                 [binaryage/dirac         "0.7.1" :scope "test"]
+                 [powerlaces/boot-cljs-devtools "0.1.2" :scope "test"]
                  [crisptrutski/boot-cljs-test "0.2.0-SNAPSHOT" :scope "test"]
                  [org.martinklepsch/boot-garden "1.2.5-3" :scope "test"]
                  ;; prod
@@ -29,6 +32,7 @@
  '[adzerk.boot-reload    :refer [reload]]
  '[pandeiro.boot-http    :refer [serve]]
  '[crisptrutski.boot-cljs-test :refer [test-cljs]]
+ '[powerlaces.boot-cljs-devtools :refer [cljs-devtools]]
  '[org.martinklepsch.boot-garden :refer [garden]])
 
 (deftask build []
@@ -40,6 +44,7 @@
 (deftask run []
   (comp (serve :handler 'anansi.server/server :reload true)
         (watch)
+        (cljs-devtools) ;; should really be in dev or develop but, timing?
         (cljs-repl)
         (reload)
         (build)))
