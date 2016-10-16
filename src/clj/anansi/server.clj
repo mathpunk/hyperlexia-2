@@ -8,6 +8,5 @@
 
 (defroutes server
   (GET "/" [] (ring.util.response/redirect "/index.html"))
-  (GET "/data" [] (str data))
   (GET "/recent" [] (recent-pins))
   (route/resources "/"))

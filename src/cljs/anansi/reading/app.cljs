@@ -20,8 +20,6 @@
 (GET "/recent" {:handler handler
               :error-handler error-handler})
 
-(def posts (get-in @state [:posts]))
-
 (def schema
   ;; { :entity/attribute {:db/attribute :db.attribute/value} ... }
     {:pin/user {:db/valueType :db.type/ref}
@@ -30,12 +28,6 @@
     })
 
 (defonce conn (do (. js/console log "Creating connection") (d/create-conn schema)))
-
-(defn destructure-tweet [tw]
-  (if-let [matches (re-matches #"https://twitter\.com/(\w+)/status/(]0-9]+).*" (:href tw))]
-    (assoc tw :user (nth matches 1) :status-id (nth matches 2))
-    tw
-  ))
 
 (defn add-pin [pin]
   (let [ent {:pin/time (:time pin)

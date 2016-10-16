@@ -15,6 +15,7 @@
                  [org.clojure/clojurescript "1.9.229"]
                  [reagent "0.6.0" :exclusions [cljsjs/react]]
                  [cljs-ajax "0.5.8"]
+                 [cheshire "5.6.3"]
                  [ring/ring-core "1.5.0"]
                  [garden "1.3.2"]
                  [compojure "1.5.1"]
